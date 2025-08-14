@@ -1,0 +1,18 @@
+.email-list {
+  list-style: none;
+  padding: 0;
+}
+
+.email-item {
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.email-item:hover {
+  background: #f8f9fa;
+}
+
+.email-subject {
+  font-weight: bold;
+}

@@ -1,0 +1,97 @@
+/* === Compose Page Styles === */
+.compose-page {
+  max-width: 700px;
+  margin: 1rem auto;
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.compose-page h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* === EmailForm Styles === */
+.email-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.email-form label {
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+}
+
+.email-form input,
+.email-form textarea {
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.email-form textarea {
+  min-height: 120px;
+}
+
+.email-form button {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.email-form button:hover {
+  background-color: #333;
+}
+
+/* === Responsive Styles === */
+@media screen and (max-width: 768px) {
+  .compose-page {
+    margin: 0.5rem;
+    padding: 0.8rem;
+  }
+
+  .compose-page h2 {
+    font-size: 1.5rem;
+  }
+
+  .email-form input,
+  .email-form textarea {
+    font-size: 0.95rem;
+  }
+
+  .email-form button {
+    font-size: 0.95rem;
+    padding: 0.5rem 0.8rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .compose-page h2 {
+    font-size: 1.3rem;
+  }
+
+  .email-form input,
+  .email-form textarea {
+    font-size: 0.9rem;
+  }
+
+  .email-form button {
+    font-size: 0.9rem;
+    padding: 0.45rem 0.7rem;
+  }
+}

@@ -1,0 +1,16 @@
+.email-form {
+  max-width: 600px;
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+}
+
+.email-form label {
+  display: block;
+  margin-top: 10px;
+}
+
+.email-form button {
+  margin-top: 15px;
+}
