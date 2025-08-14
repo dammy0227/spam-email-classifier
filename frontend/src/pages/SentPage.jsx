@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { getSent } from '../api/emailApi';
+import { getSent, deleteEmail } from '../api/emailApi';
 import { AuthContext } from '../context/AuthContextInstance';
-import './page/SentPage.css'
+import './page/SentPage.css';
 
 const SentPage = () => {
   const { token } = useContext(AuthContext);
@@ -28,6 +28,15 @@ const SentPage = () => {
     fetchSent();
   }, [token]);
 
+const handleDeleteSent = async (emailId) => {
+  if (!window.confirm('Remove this from Sent?')) return;
+  try {
+    await deleteEmail(token, emailId);
+    setEmails(prev => prev.filter(email => email._id !== emailId));
+  } catch (err) {
+    alert(err.message);
+  }
+};
   if (!token) return <p>Please login to see sent emails.</p>;
   if (loading) return <p>Loading sent emails...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
@@ -38,13 +47,24 @@ const SentPage = () => {
       {emails.length === 0 ? (
         <p>No sent emails found.</p>
       ) : (
-        <ul>
+        <ul className="email-list">
           {emails.map(email => (
-            <li key={email._id} style={{ marginBottom: '1em' }}>
-              <strong>To:</strong> {email.to || 'Unknown'} <br />
-              <strong>Subject:</strong> {email.subject || '(No subject)'} <br />
-              <strong>Message:</strong> {email.body || ''} <br />
-              <hr />
+            <li key={email._id} className="email-item">
+              <div className="email-header">
+                <strong>To:</strong> {email.to || 'Unknown'}
+              </div>
+              <div className="email-subject">
+                <strong>Subject:</strong> {email.subject || '(No subject)'}
+              </div>
+              <div className="email-body">
+                <strong>Message:</strong> {email.body || ''}
+              </div>
+              <div className="email-actions">
+         <button onClick={() => handleDeleteSent(email._id)}>
+  Remove from Sent
+</button>
+              </div>
+              <hr className="email-divider" />
             </li>
           ))}
         </ul>

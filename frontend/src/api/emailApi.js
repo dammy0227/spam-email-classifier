@@ -28,9 +28,18 @@ export const getTrash = async (token) => {
   return data;
 };
 
+// In your emailApi.js
 export const moveToTrash = async (token, emailId) => {
-  const { data } = await axios.patch(`${API_URL}/${emailId}/trash`, {}, authHeader(token));
-  return data;
+  try {
+    const { data } = await axios.patch(`${API_URL}/${emailId}/trash`, {}, authHeader(token));
+    return data;
+  } catch (err) {
+    const errorMsg = err.response?.data?.error || 
+      err.response?.status === 403 ? 
+        "You don't have permission to move this email" : 
+        "Failed to move email to trash";
+    throw new Error(errorMsg);
+  }
 };
 
 export const markRead = async (token, emailId) => {

@@ -28,17 +28,17 @@ const InboxPage = () => {
     fetchInbox();
   }, [token]);
 
-  const handleMoveToTrash = async (emailId) => {
-    if (!window.confirm('Move this email to trash?')) return;
+const handleMoveToTrash = async (emailId) => {
+  if (!window.confirm('Move this email to trash?')) return;
+  try {
+    await moveToTrash(token, emailId);
+    setEmails(prev => prev.filter(email => email._id !== emailId));
+  } catch (err) {
+    alert(err.message); // backend now gives correct message
+  }
+};
 
-    try {
-      await moveToTrash(token, emailId);
-      setEmails(prev => prev.filter(email => email._id !== emailId));
-    } catch (err) {
-      console.error(err);
-      alert(err.message || 'Failed to move email to trash.');
-    }
-  };
+
 
   const handleMarkRead = async (emailId) => {
     try {
