@@ -33,7 +33,7 @@ const SpamPage = () => {
       <button onClick={handleCheck} style={{ marginTop: '10px' }}>Check</button>
 
       {result && (
-        <div className={`spam-result ${result.label}`} style={{ marginTop: '10px' }}>
+        <div className={`spam-result ${result.label}`} style={{ marginTop: '10px' , backgroundColor : '#333', color: 'white'}}>
           <p><strong>Label:</strong> {result.label}</p>
           <p><strong>Confidence:</strong> {(result.confidence * 100).toFixed(2)}%</p>
         </div>

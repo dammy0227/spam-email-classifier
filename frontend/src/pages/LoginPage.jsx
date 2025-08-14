@@ -1,7 +1,8 @@
+// src/pages/LoginPage.jsx
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContextInstance';
 import { useNavigate, Link } from 'react-router-dom';
-import './page/auth.css';
+import './page/auth.css'; // Same CSS as RegisterPage
 
 const LoginPage = () => {
   const { login } = useContext(AuthContext);
@@ -20,11 +21,11 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="auth-container">
+    <div className="auth-page">
       <div className="auth-card">
         <h2>Login</h2>
         {error && <p className="error">{error}</p>}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="input-group">
           <input
             type="email"
             placeholder="Email address"

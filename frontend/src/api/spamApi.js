@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api'; // change to production URL if needed
+// Use Vite environment variable (configured in .env files)
+const API_URL = `${import.meta.env.VITE_API_URL}/api`;
 
 const authHeader = (token) => ({
   headers: { Authorization: `Bearer ${token}` }

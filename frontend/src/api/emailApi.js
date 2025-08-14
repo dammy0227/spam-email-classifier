@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/emails'; // change to production URL if needed
+// Use Vite environment variable
+const API_URL = `${import.meta.env.VITE_API_URL}/api/emails`;
 
 // Set token in request header
 const authHeader = (token) => ({
@@ -43,7 +44,10 @@ export const deleteEmail = async (token, emailId) => {
     return data;
   } catch (err) {
     console.error('Failed to delete email:', err.response?.status, err.response?.data || err.message);
-    throw new Error(err.response?.status === 404 ? 'Email not found or unauthorized.' : 'Failed to delete email.');
+    throw new Error(
+      err.response?.status === 404
+        ? 'Email not found or unauthorized.'
+        : 'Failed to delete email.'
+    );
   }
 };
-

@@ -1,18 +1,18 @@
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
-  color: #333;
+*{
+  box-sizing: border-box;
   overflow: hidden;
+  padding: 0;
 }
+
+
+
 
 h2 {
   margin-bottom: 10px;
 }
 
 button {
-  background: #007bff;
+  background: #333;
   color: white;
   border: none;
   padding: 8px 14px;
@@ -21,7 +21,7 @@ button {
 }
 
 button:hover {
-  background: #0056b3;
+  background: #333;
 }
 
 input, textarea, select {

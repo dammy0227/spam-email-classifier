@@ -13,6 +13,7 @@ import SentPage from './pages/SentPage';
 import TrashPage from './pages/TrashPage';
 import SpamPage from './pages/SpamPage';
 import ComposePage from './pages/ComposePage';
+import Logout from './pages/Logout';
 
 import './styles/global.css';
 
@@ -35,6 +36,7 @@ const App = () => {
               <>
                 <Route path="/" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                 <Route path="/login" element={<LoginPage />} />
                 <Route path="*" element={<Navigate to="/login" />} />
               </>
             ) : (
@@ -44,6 +46,7 @@ const App = () => {
                 <Route path="/trash" element={<TrashPage />} />
                 <Route path="/compose" element={<ComposePage />} />
                 <Route path="/spam" element={<SpamPage />} />
+                <Route path="/logout" element={<Logout />} />
                 {/* <Route path="*" element={<Navigate to="/inbox" />} /> */}
               </>
             )}

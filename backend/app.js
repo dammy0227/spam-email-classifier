@@ -7,7 +7,14 @@ import emailRoutes from './routes/emailRoutes.js';
 import spamRoutes from './routes/spamRoutes.js';
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://spam-email-classifier-three.vercel.app', // production
+    'http://localhost:5173' // local dev
+  ],
+  credentials: true,
+}));
+
 app.use(express.json());
 
 app.get('/health', (_, res) => res.json({ ok: true }));

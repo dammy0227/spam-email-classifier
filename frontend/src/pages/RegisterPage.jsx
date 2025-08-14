@@ -3,6 +3,7 @@ import { AuthContext } from '../context/AuthContextInstance';
 import { useNavigate, Link } from 'react-router-dom';
 import './page/auth.css';
 
+
 const RegisterPage = () => {
   const { register } = useContext(AuthContext);
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
@@ -20,11 +21,14 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="auth-container">
+    <div className="auth-page">
       <div className="auth-card">
+        {/* Gmail Icon */}
+  
+
         <h2>Register</h2>
         {error && <p className="error">{error}</p>}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="input-group">
           <input
             type="text"
             placeholder="Full Name"
@@ -45,6 +49,7 @@ const RegisterPage = () => {
             value={formData.password}
             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             required
+            className='red'
           />
           <button type="submit">Register</button>
         </form>

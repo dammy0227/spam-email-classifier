@@ -16,6 +16,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <li><Link to="/trash" onClick={toggleSidebar}>Trash</Link></li>
         <li><Link to="/compose" onClick={toggleSidebar}>Compose</Link></li>
         <li><Link to="/spam" onClick={toggleSidebar}>Spam Check</Link></li>
+        <li><Link to="/logout" onClick={toggleSidebar}>logout</Link></li>
       </ul>
     </aside>
   );
