@@ -1,6 +1,7 @@
 import { User } from '../models/User.js';
 import { Email } from '../models/Email.js';
 import { checkSpam } from '../utils/spamClassifier.js';
+import { io } from '../server.js'; // ✅ Add this
 
 // Helper function for email validation
 const validateEmailRequest = (req) => {
@@ -33,7 +34,6 @@ export const sendEmail = async (req, res) => {
       return res.status(404).json({ error: 'Recipient not found' });
     }
 
-    // Create with explicit Map
     const email = new Email({
       senderId,
       recipientId: recipient._id,
@@ -49,6 +49,9 @@ export const sendEmail = async (req, res) => {
 
     await email.save();
 
+    // ✅ Notify recipient in real-time
+    io.to(recipient._id.toString()).emit('new_email', email);
+
     return res.status(201).json({
       success: true,
       data: email
@@ -63,11 +66,10 @@ export const sendEmail = async (req, res) => {
   }
 };
 
-
 export const getInbox = async (req, res) => {
   try {
     const emails = await Email.find({
-      recipientId: req.user.id, // only emails you received
+      recipientId: req.user.id,
       [`folderByUser.${req.user.id}`]: 'inbox',
       deletedForEveryone: { $ne: true }
     })
@@ -80,12 +82,10 @@ export const getInbox = async (req, res) => {
   }
 };
 
-
-
 export const getSent = async (req, res) => {
   try {
     const emails = await Email.find({
-      senderId: req.user.id, // only emails you sent
+      senderId: req.user.id,
       [`folderByUser.${req.user.id}`]: 'sent',
       deletedForEveryone: { $ne: true }
     })
@@ -110,10 +110,6 @@ export const getTrash = async (req, res) => {
   }
 };
 
-
-
-
-// controllers/emailController.js
 export const moveToTrash = async (req, res) => {
   try {
     const userId = req.user.id.toString();
@@ -123,54 +119,34 @@ export const moveToTrash = async (req, res) => {
       return res.status(404).json({ error: 'Email not found' });
     }
 
-    const senderId = email.senderId.toString();
     const recipientId = email.recipientId.toString();
-    const isRecipient = recipientId === userId;
-
-    // Only recipient can move to trash
-    if (!isRecipient) {
-      return res.status(403).json({
-        error: 'Only the recipient can move this email to trash'
-      });
+    if (recipientId !== userId) {
+      return res.status(403).json({ error: 'Only the recipient can move this email to trash' });
     }
 
     const currentFolder = email.folderByUser?.get?.(userId) || 'inbox';
-
-    // Recipient can only trash from inbox or spam
     const allowedFromFolders = ['inbox', 'spam'];
     if (!allowedFromFolders.includes(currentFolder)) {
-      return res.status(403).json({
-        error: `Cannot move from ${currentFolder} to trash`,
-        details: { allowedFrom: allowedFromFolders }
-      });
+      return res.status(403).json({ error: `Cannot move from ${currentFolder} to trash` });
     }
 
-    // Move to trash
     email.folderByUser.set(userId, 'trash');
     await email.save();
 
-    return res.json({
-      success: true,
-      message: 'Moved to trash',
-      previousFolder: currentFolder
-    });
+    // ✅ Notify this user
+    io.to(userId).emit('email_moved_to_trash', { emailId: email._id });
+
+    return res.json({ success: true, message: 'Moved to trash', previousFolder: currentFolder });
   } catch (err) {
     console.error('Move to trash failed:', err);
-    return res.status(500).json({
-      error: 'Server error during move operation'
-    });
+    return res.status(500).json({ error: 'Server error during move operation' });
   }
 };
-
-
 
 export const markRead = async (req, res) => {
   try {
     const email = await Email.findOneAndUpdate(
-      {
-        _id: req.params.id,
-        recipientId: req.user.id
-      },
+      { _id: req.params.id, recipientId: req.user.id },
       { isRead: true },
       { new: true }
     );
@@ -179,12 +155,14 @@ export const markRead = async (req, res) => {
       return res.status(404).json({ success: false, error: 'Email not found' });
     }
 
+    // ✅ Notify this user
+    io.to(req.user.id.toString()).emit('email_marked_read', { emailId: email._id });
+
     res.json({ success: true, email });
   } catch (error) {
     res.status(500).json({ success: false, error: 'Failed to mark as read' });
   }
 };
-
 
 export const deleteEmail = async (req, res) => {
   try {
@@ -197,17 +175,12 @@ export const deleteEmail = async (req, res) => {
     const senderId = email.senderId.toString();
     const recipientId = email.recipientId.toString();
 
-    const isSender = senderId === userId;
-    const isRecipient = recipientId === userId;
-
-    // Check permissions
-    if (!isSender && !isRecipient) {
+    if (![senderId, recipientId].includes(userId)) {
       return res.status(403).json({ success: false, error: 'Unauthorized' });
     }
 
-    // Check allowed folder transitions
     const currentFolder = email.folderByUser?.get?.(userId);
-    const allowedFolders = isSender ? ['sent'] : ['inbox', 'trash'];
+    const allowedFolders = userId === senderId ? ['sent'] : ['inbox', 'trash'];
 
     if (!allowedFolders.includes(currentFolder)) {
       return res.status(403).json({
@@ -216,31 +189,27 @@ export const deleteEmail = async (req, res) => {
       });
     }
 
-    // Remove this user's folder mapping
     email.folderByUser.delete(userId);
-
-    // Track user deletion
     if (!email.deletedBy.includes(userId)) {
       email.deletedBy.push(userId);
     }
 
-    // If both sender & recipient deleted, remove email from DB
     const senderDeleted = email.deletedBy.includes(senderId);
     const recipientDeleted = email.deletedBy.includes(recipientId);
 
     if (senderDeleted && recipientDeleted) {
       await email.deleteOne();
-      return res.json({
-        success: true,
-        message: 'Email permanently deleted for both users',
-      });
+      // ✅ Permanent delete event
+      io.to(userId).emit('email_deleted', { emailId: req.params.id, permanent: true });
+      return res.json({ success: true, message: 'Email permanently deleted for both users' });
     }
 
     await email.save();
-    return res.json({
-      success: true,
-      message: 'Email deleted from your account',
-    });
+
+    // ✅ Soft delete event
+    io.to(userId).emit('email_deleted', { emailId: req.params.id, permanent: false });
+
+    return res.json({ success: true, message: 'Email deleted from your account' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, error: 'Failed to delete email' });

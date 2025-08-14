@@ -1,19 +1,21 @@
 /* === Sent Page Styles === */
 .sent-page {
-  max-width: 700px;
+  max-width: 900px;
   margin: 1rem auto;
-  padding: 1rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  font-family: Arial, sans-serif;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  transition: all 0.3s ease;
 }
 
 .sent-page h2 {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-size: 1.8rem;
   text-align: center;
-  color: #333;
+  color: #2c3e50;
+  font-weight: 600;
 }
 
 .sent-page ul {
@@ -23,47 +25,82 @@
 }
 
 .sent-page li {
-  background-color: #f9f9f9;
-  padding: 0.8rem;
-  border-radius: 6px;
+  background-color: #fdfdfd;
+  padding: 1rem;
+  border-radius: 8px;
   margin-bottom: 1rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  border: 1px solid #e0e0e0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sent-page li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .sent-page li strong {
-  display: inline-block;
-  margin-bottom: 0.3rem;
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+  color: #34495e;
 }
 
-.sent-page hr {
+.sent-page li p {
+  margin: 0.5rem 0 0;
+  line-height: 1.5;
+  color: #555;
+}
+
+.sent-page button {
+  margin-top: 0.6rem;
+  padding: 0.45rem 0.9rem;
   border: none;
-  border-top: 1px solid #ddd;
-  margin-top: 0.8rem;
+  border-radius: 5px;
+  background-color: #e74c3c;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sent-page button:hover {
+  background-color: #c0392b;
 }
 
 /* === Responsive === */
 @media screen and (max-width: 768px) {
   .sent-page {
     margin: 0.5rem;
-    padding: 0.8rem;
+    padding: 1rem;
   }
 
   .sent-page h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
 
   .sent-page li {
-    padding: 0.6rem;
+    padding: 0.8rem;
   }
 }
 
 @media screen and (max-width: 480px) {
+  .sent-page {
+    padding: 0.8rem;
+  }
+
   .sent-page h2 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
   }
 
   .sent-page li {
-    padding: 0.5rem;
+    padding: 0.7rem;
     font-size: 0.95rem;
+  }
+
+  .sent-page button {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 0.9rem;
   }
 }

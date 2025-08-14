@@ -6,7 +6,6 @@ import cors from 'cors';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
-// CORS
 app.use(cors({
   origin: [
     'https://spam-email-classifier-three.vercel.app',
@@ -15,8 +14,10 @@ app.use(cors({
   credentials: true,
 }));
 
-// Create HTTP server & bind Socket.IO
+// Create HTTP server
 const httpServer = createServer(app);
+
+// Create Socket.IO server
 export const io = new Server(httpServer, {
   cors: {
     origin: [
@@ -29,6 +30,12 @@ export const io = new Server(httpServer, {
 
 io.on('connection', (socket) => {
   console.log(`🟢 Client connected: ${socket.id}`);
+
+  // Optional: Join user-specific room when they log in
+  socket.on('join', (userId) => {
+    socket.join(userId);
+    console.log(`User ${userId} joined room`);
+  });
 
   socket.on('disconnect', () => {
     console.log(`🔴 Client disconnected: ${socket.id}`);
