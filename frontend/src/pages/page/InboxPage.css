@@ -1,22 +1,22 @@
 /* === Inbox Page Styles === */
 .inbox-page {
-  /* max-width: 900px; */
   margin: 1rem auto;
   padding: 1rem;
   font-family: 'Segoe UI', Tahoma, sans-serif;
-  background: #ffffff;
+  background: #f8fafc; /* light slate background */
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  max-width: 1000px;
 }
 
 .inbox-page h2 {
   text-align: center;
   font-size: 2rem;
   margin-bottom: 1.5rem;
-  color: #2c3e50;
-  font-weight: 600;
+  color: #1e293b;
+  font-weight: 700;
 }
 
+/* Email List */
 .inbox-page ul {
   list-style: none;
   padding: 0;
@@ -24,75 +24,82 @@
 }
 
 .inbox-page li {
-  background: linear-gradient(to right, #f9f9f9, #ffffff);
-  padding: 1rem;
+  background: white;
+  padding: 1rem 1.2rem;
   border-radius: 10px;
-  margin-bottom: 1rem;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.05);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  border-left: 5px solid transparent;
+  transition: all 0.15s ease;
 }
 
 .inbox-page li:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+  border-left-color: #334155; /* theme color accent */
+  box-shadow: 0 3px 10px rgba(0,0,0,0.07);
 }
 
 .inbox-page li strong {
   display: block;
   font-size: 1.05rem;
   margin-bottom: 0.3rem;
-  color: #34495e;
+  color: #0f172a; /* dark slate */
 }
 
 .inbox-page li p {
-  margin: 0.5rem 0;
-  color: #555;
+  margin: 0.4rem 0;
+  color: #475569; /* slate text */
   line-height: 1.4;
 }
 
+/* Buttons */
 .inbox-page button {
   margin-right: 0.5rem;
   padding: 0.45rem 0.9rem;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  background-color: #3498db;
+  background-color: #334155; /* theme dark slate */
   color: white;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 500;
   transition: background-color 0.2s, transform 0.1s ease;
 }
 
 .inbox-page button:hover {
-  background-color: #2980b9;
+  background-color: #1e293b;
 }
 
 .inbox-page button:active {
   transform: scale(0.97);
 }
 
+/* Spam/Ham Badges */
 .inbox-page .spam-badge {
   display: inline-block;
-  padding: 0.3rem 0.6rem;
-  border-radius: 6px;
-  font-size: 0.8rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
   font-weight: 600;
-  margin-top: 0.4rem;
+
+  letter-spacing: 0.3px;
+  margin:0.4rem;
 }
 
 .inbox-page .spam {
-  background-color: #e74c3c;
+  background-color: #dc2626; /* red-600 */
   color: white;
 }
 
 .inbox-page .ham {
-  background-color: #2ecc71;
+  background-color: #16a34a; /* green-600 */
   color: white;
-  width: 20px;
 }
 
+/* Horizontal line between emails */
 .inbox-page hr {
   border: none;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #e2e8f0;
   margin-top: 0.8rem;
 }
 

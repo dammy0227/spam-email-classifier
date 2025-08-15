@@ -300,23 +300,29 @@ export function checkSpam(message) {
   const preprocessed = preprocess(message);
   const results = classifier.predict(preprocessed);
 
-  // If classifier returns multiple results, pick the one with highest confidence
   let result;
+
   if (results && results.length > 0) {
+    // Pick the one with highest confidence
     result = results.reduce((max, r) => (r.confidence > max.confidence ? r : max), results[0]);
   } else {
-    // fallback in case predict returns empty
-    result = { label: 'ham', confidence: 0 };
+    // If no result, mark as suspicious
+    return { label: 'suspicious', score: 0.1 };
   }
 
-  // Always return spam or ham, never suspicious
-  const label = result.label === 'spam' ? 'spam' : 'ham';
+  const { label, confidence } = result;
 
-  // Use random confidence between 0 and 1
-  const confidence = Math.random();
-
-  return { label, score: confidence };
+  // Decide label based on confidence thresholds
+  // You can adjust these thresholds
+  if (confidence >= 0.6) {
+    // strong prediction
+    return { label, score: confidence };
+  } else {
+    // not confident enough, mark suspicious
+    return { label: 'suspicious', score: confidence };
+  }
 }
+
 
 export default classifier;
 

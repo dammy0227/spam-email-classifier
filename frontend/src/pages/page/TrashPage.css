@@ -1,20 +1,20 @@
-/* TrashPage.css */
-
+/* === Trash Page Styles (Unified Theme) === */
 .trash-page {
-  max-width: 800px;
+  max-width: 900px;
   margin: 1rem auto;
-  padding: 1rem;
-  font-family: Arial, sans-serif;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  background-color: #f8fafc; /* light slate background */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  font-family: 'Segoe UI', Tahoma, sans-serif;
 }
 
 .trash-page h2 {
   text-align: center;
-  font-size: 1.8rem;
-  color: #333; /* Trash-red accent */
-  margin-bottom: 1rem;
+  font-size: 1.9rem;
+  color: #334155;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
 }
 
 .trash-list {
@@ -24,60 +24,86 @@
 }
 
 .trash-item {
-  background-color: #f9f9f9;
-  border-radius: 6px;
-  padding: 0.8rem;
+  background-color: white;
+  border: 1px solid #e2e8f0; /* slate-200 */
+  border-radius: 8px;
+  padding: 1rem;
   margin-bottom: 1rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.trash-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
 .trash-item strong {
-  font-weight: bold;
+  display: block;
+  color: #334155; /* slate-700 */
+  font-size: 1.05rem;
+  margin-bottom: 0.4rem;
 }
 
 .trash-item p {
-  margin: 0.4rem 0;
-  color: #555;
+  margin: 0.4rem 0 0;
+  color: #475569; /* slate-600 */
+  line-height: 1.5;
 }
 
 .trash-item button {
-  background-color: #d32f2f;
-  color: #fff;
+  background-color: #334155;
+  color: white;
   border: none;
-  border-radius: 5px;
-  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .trash-item button:hover {
-  background-color: #b71c1c;
+  background-color: #334155ed;
 }
 
-/* === Responsive Styles === */
+.trash-item button:active {
+  transform: scale(0.97);
+}
+
+/* === Responsive === */
 @media screen and (max-width: 768px) {
   .trash-page {
     margin: 0.5rem;
-    padding: 0.8rem;
+    padding: 1rem;
   }
 
   .trash-page h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
 
-  .trash-item button {
-    padding: 0.35rem 0.7rem;
-    font-size: 0.95rem;
+  .trash-item {
+    padding: 0.8rem;
   }
 }
 
 @media screen and (max-width: 480px) {
+  .trash-page {
+    padding: 0.8rem;
+  }
+
   .trash-page h2 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
+  }
+
+  .trash-item {
+    padding: 0.7rem;
+    font-size: 0.95rem;
   }
 
   .trash-item button {
-    padding: 0.3rem 0.6rem;
+    width: 100%;
+    padding: 0.5rem;
     font-size: 0.9rem;
   }
 }

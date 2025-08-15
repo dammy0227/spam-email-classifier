@@ -3,20 +3,18 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh !important;
-  width: 100%;
-  padding: 1rem;
+  width: 100vw !important;
+  /* padding: 1rem; */
   background: linear-gradient(
       135deg,
       rgba(0, 0, 0, 0.8),
       rgba(0, 0, 0, 0.8)
     ),
     url('../../assets/img2.jpg') no-repeat center center/cover;
-  position: fixed; /* Cover viewport */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
+  overflow: hidden;
 }
+
 /* Glassmorphism card */
 .auth-card {
   background: rgba(255, 255, 255, 0.15);
@@ -29,19 +27,20 @@
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: #333;
+  box-sizing: border-box; /* ensures padding doesn’t cause overflow */
 }
-
 .auth-card h2 {
   text-align: center;
   margin-bottom: 1rem;
-  color: #241b1b;
+  color: #1e293b;
   font-weight: bold;
 }
 
 .auth-card input::placeholder {
-  color: #000; /* Black placeholder text */
-  opacity: 1; /* Ensures full color visibility */
+  color: #000;   /* Black placeholder text */
+  opacity: 1;    /* Ensure full visibility */
 }
+
 
 .error {
   background: rgba(239, 68, 68, 0.2);
@@ -66,16 +65,16 @@
   font-size: 0.9rem;
   background: rgba(255, 255, 255, 0.25);
   color: #333;
+  width: 100%
 }
 
 .auth-card input:focus {
-  border-color: #333;
   outline: none;
 }
 
 .auth-card button {
   padding: 0.6rem;
-  background: #333;
+  background: #1e293b;
   color: white;
   border: none;
   border-radius: 8px;
@@ -86,22 +85,22 @@
 }
 
 .auth-card button:hover {
-  background: #333;
+  background: #1e293b;
 }
 
 .auth-card p {
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 11px;
   margin-top: 0.8rem;
-  color: #241b1b;
+  color: black;
   font-weight: bold;
 }
 
 .auth-card a {
-  color: #241b1b;
+  color:#1e293b;
   font-weight: bolder;
   text-decoration: none;
-  font-size: 15px;
+  font-size:13px;
 }
 
 .auth-card a:hover {
@@ -119,6 +118,38 @@
   .auth-card {
     padding: 1rem;
     max-width: 100%;
+  }
+
+  .auth-card h2 {
+    font-size: 1.25rem;
+  }
+
+  .auth-card input,
+  .auth-card button {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #333;
+  box-sizing: border-box; /* ensures padding doesn’t cause overflow */
+}
+
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1rem;
+    max-width: 90%; /* shrink card width on small screens */
   }
 
   .auth-card h2 {
