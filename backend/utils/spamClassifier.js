@@ -300,28 +300,27 @@ export function checkSpam(message) {
   const preprocessed = preprocess(message);
   const results = classifier.predict(preprocessed);
 
-  let result;
-
-  if (results && results.length > 0) {
-    // Pick the one with highest confidence
-    result = results.reduce((max, r) => (r.confidence > max.confidence ? r : max), results[0]);
-  } else {
-    // If no result, mark as suspicious
+  if (!results || results.length === 0) {
     return { label: 'suspicious', score: 0.1 };
   }
 
-  const { label, confidence } = result;
+  // Get top 2 predictions sorted by confidence
+  const sorted = [...results].sort((a, b) => b.confidence - a.confidence);
+  const best = sorted[0];
+  const second = sorted[1] || { confidence: 0 };
 
-  // Decide label based on confidence thresholds
-  // You can adjust these thresholds
-  if (confidence >= 0.6) {
-    // strong prediction
-    return { label, score: confidence };
-  } else {
-    // not confident enough, mark suspicious
-    return { label: 'suspicious', score: confidence };
+  // Check how much stronger the best is than the second
+  const margin = best.confidence - second.confidence;
+
+  if (margin < 0.1) {
+    // Too close, not confident enough → suspicious
+    return { label: 'suspicious', score: best.confidence };
   }
+
+  // Otherwise, trust the top result
+  return { label: best.label, score: best.confidence };
 }
+
 
 
 export default classifier;
