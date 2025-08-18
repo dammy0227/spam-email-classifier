@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// Use Vite environment variable (configured in .env files)
 const API_URL = `${import.meta.env.VITE_API_URL}/api`;
 
 const authHeader = (token) => ({
@@ -8,10 +7,19 @@ const authHeader = (token) => ({
 });
 
 export const checkSpam = async (token, message) => {
-  const { data } = await axios.post(
-    `${API_URL}/check-spam`,
-    { message },
-    authHeader(token)
-  );
-  return data; // { label: 'spam' | 'ham' | 'suspicious', confidence: 0.xx }
+  try {
+    const { data } = await axios.post(
+      `${API_URL}/check-spam`,
+      { message },
+      authHeader(token)
+    );
+    return data; // { isSpam: boolean, confidence: number, details: object }
+  } catch (err) {
+    console.error('Spam check failed:', err);
+    return {
+      isSpam: false,
+      confidence: 0,
+      details: { error: err.response?.data?.error || 'Failed to check spam' }
+    };
+  }
 };
